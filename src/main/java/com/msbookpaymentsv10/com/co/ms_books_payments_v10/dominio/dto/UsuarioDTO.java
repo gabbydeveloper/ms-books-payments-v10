@@ -7,6 +7,8 @@ import lombok.Data;
 public class UsuarioDTO {
   @Schema(description = "ID del usuario generado automáticamente", example = "1")
   private Long idUsuario;
+  @Schema(description = "ID del rol del usuario", example = "1")
+  private Long idRolUsuario;
   @Schema(description = "Correo que ingresa el usuario al registrarse", example = "gabby@gmail.com")
   private String correoUsuario;
   @Schema(description = "Clave del usuario")

@@ -12,13 +12,16 @@ public class Usuario {
   @Column(name="ID_USUARIO")
   private Long idUsuario;
 
-  @Column(name="CORREO_USUARIO")
+  @Column(name = "ID_ROL_USUARIO", nullable = false)
+  private Long idRolUsuario;
+
+  @Column(name="CORREO_USUARIO", nullable = false, unique = true)
   private String correoUsuario;
 
-  @Column(name="CLAVE_USUARIO")
+  @Column(name="CLAVE_USUARIO", nullable = false)
   private String claveUsuario;
 
-  @Column(name="ESTADO_USUARIO")
+  @Column(name="ESTADO_USUARIO", nullable = false)
   private String estadoUsuario;
 
 }
