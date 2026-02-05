@@ -5,14 +5,14 @@ import lombok.Data;
 
 @Data
 public class UsuarioDTO {
-  @Schema(description = "ID del usuario generado automáticamente", example = "1")
+  @Schema(description = "ID generado automáticamente (NO ENVIAR)", example = "1")
   private Long idUsuario;
-  @Schema(description = "ID del rol del usuario", example = "1")
+  @Schema(description = "ID del rol del usuario", example = "2")
   private Long idRolUsuario;
   @Schema(description = "Correo que ingresa el usuario al registrarse", example = "gabby@gmail.com")
   private String correoUsuario;
-  @Schema(description = "Clave del usuario")
+  @Schema(description = "Clave generada automáticamente (NO ENVIAR)")
   private String claveUsuario;
-  @Schema(description = "Estado del usuario", example = "ACTIVO/INACTIVO")
+  @Schema(description = "Estado del usuario (ACTIVO por default NO ENVIAR)", example = "ACTIVO/INACTIVO")
   private String estadoUsuario;
 }

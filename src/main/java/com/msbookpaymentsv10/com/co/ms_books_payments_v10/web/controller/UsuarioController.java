@@ -36,6 +36,14 @@ public class UsuarioController {
 
   }
 
+  @Operation(
+      summary = "Presenta datos de un usuario",
+      description = "Devuelve todos los datos de un usuario dado su código"
+  )
+  @ApiResponses({
+      @ApiResponse(responseCode = "200", description = "Usuario encontrado"),
+      @ApiResponse(responseCode = "404", description = "Usuario no existe")
+  })
   @GetMapping("/usuarios/{idUsuario}")
   public ResponseEntity<UsuarioDTO> consultarUsuarioPorId(@PathVariable Long idUsuario){
     try{
@@ -51,7 +59,8 @@ public class UsuarioController {
       description = "Crea el usuario con el cuerpo JSON enviado"
   )
   @ApiResponses({
-      @ApiResponse(responseCode = "200", description = "Usuario creado")
+      @ApiResponse(responseCode = "200", description = "Usuario creado"),
+      @ApiResponse(responseCode = "400", description = "Parámetros inválidos")
   })
   @PostMapping("/usuarios")
   public ResponseEntity<Void> crearUsuario(@RequestBody UsuarioDTO usuarioDTO){
@@ -63,17 +72,32 @@ public class UsuarioController {
     }
   }
 
+  @Operation(
+      summary = "Elimina un usuario",
+      description = "Elimina los datos de un usuario dado su código"
+  )
+  @ApiResponses({
+      @ApiResponse(responseCode = "200", description = "Usuario eliminado"),
+      @ApiResponse(responseCode = "404", description = "Usuario no existe")
+  })
   @DeleteMapping("/usuarios/{idUsuario}")
-  public ResponseEntity<String> eliminarUsuario(@PathVariable Long idUsuario){
+  public ResponseEntity<Void> eliminarUsuario(@PathVariable Long idUsuario){
     try {
       usuarioService.eliminarUsuario(idUsuario);
-      return ResponseEntity.ok("Usuario eliminado correctamente");
+      return ResponseEntity.ok().build();
     }catch (IllegalStateException e){
-      return ResponseEntity.status(HttpStatus.NOT_FOUND)
-          .body(e.getMessage());
+      return ResponseEntity.notFound().build();
     }
   }
 
+  @Operation(
+      summary = "Actualización parcial de usuarios",
+      description = "Actualiza uno o varios campos de un usuario dado su código"
+  )
+  @ApiResponses({
+      @ApiResponse(responseCode = "200", description = "Usuario actualizado"),
+      @ApiResponse(responseCode = "404", description = "Usuario no existe")
+  })
   @PatchMapping("/usuarios/{idUsuario}")
   public ResponseEntity<UsuarioDTO> actualizarUsuarioParcial(
       @PathVariable Long idUsuario,
@@ -87,6 +111,15 @@ public class UsuarioController {
     }
   }
 
+  @Operation(
+      summary = "Actualización de usuarios",
+      description = "Actualiza todos los campos de un usuario dado su código, es obligatorio mandr todos los datos"
+  )
+  @ApiResponses({
+      @ApiResponse(responseCode = "200", description = "Usuario actualizado"),
+      @ApiResponse(responseCode = "400", description = "Estructura mal formada o faltan datos"),
+      @ApiResponse(responseCode = "404", description = "Usuario no existe")
+  })
   @PutMapping("/usuarios/{idUsuario}")
   public ResponseEntity<UsuarioDTO> actualizarUsuario(
       @PathVariable Long idUsuario,
@@ -96,7 +129,7 @@ public class UsuarioController {
           usuarioService.actualizarUsuario(idUsuario, usuarioDTO);
       return ResponseEntity.ok(usuarioActualizado);
     }catch (IllegalStateException e){
-      return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+      return ResponseEntity.notFound().build();
     }
 
   }
