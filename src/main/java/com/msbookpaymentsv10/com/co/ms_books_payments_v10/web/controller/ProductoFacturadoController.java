@@ -14,13 +14,9 @@ public class ProductoFacturadoController {
   @Autowired
   ProductoFacturadoService productoFacturadoService;
 
-  @PostMapping("/producto")
-  public ResponseEntity<ProductoFacturadoDTO> crearProducto(@RequestBody ProductoFacturadoDTO productoFacturadoDTO){
-    try{
-      productoFacturadoService.crearProductoFacturado(productoFacturadoDTO);
-      return ResponseEntity.ok().build();
-    }catch (IllegalStateException e){
-      return ResponseEntity.badRequest().build();
-    }
+  @PostMapping("/productos")
+  public ResponseEntity<ProductoFacturadoDTO> crearProducto(@RequestBody ProductoFacturadoDTO productoFacturadoDTO) {
+    productoFacturadoService.crearProductoFacturado(productoFacturadoDTO);
+    return ResponseEntity.ok(productoFacturadoDTO);
   }
 }
