@@ -8,7 +8,6 @@ import com.msbookpaymentsv10.com.co.ms_books_payments_v10.persistencia.entity.Us
 import com.msbookpaymentsv10.com.co.ms_books_payments_v10.persistencia.repository.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
