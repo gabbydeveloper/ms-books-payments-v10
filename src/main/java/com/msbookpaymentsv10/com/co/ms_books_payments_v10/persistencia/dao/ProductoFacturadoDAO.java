@@ -30,7 +30,7 @@ public class ProductoFacturadoDAO {
   }
 
   //Este método es para presentar los datos. Se hace la conversión ENTITY → DTO
-  public ProductoFacturadoDTO productoFactuado(@org.jetbrains.annotations.UnknownNullability ProductoFacturadoDTO productoFacturado){
+  public ProductoFacturadoDTO productoFactuado(ProductoFacturadoDTO productoFacturado){
     ProductoFacturadoDTO productoFacturadoDTO = new ProductoFacturadoDTO();
     //Reasigna columnas para conversión ENTITY → DTO
     productoFacturadoDTO.setIdProductoFacturado(productoFacturado.getIdProductoFacturado());
