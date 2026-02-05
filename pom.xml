@@ -83,10 +83,10 @@
 		<!--FIN DEPENDENCIAS AGREGADAS.-->
 		<!--DEPENDENCIA REMOVIDA: javax.servlet-api ya no es necesaria en Spring Boot 3.x, se usa jakarta.servlet incluido automáticamente.-->
 		<!--DEPENDENCIA AGREGADA PARA SPRING CLOUD EUREKA CLIENT.-->
-<!--		<dependency>-->
-<!--			<groupId>org.springframework.cloud</groupId>-->
-<!--			<artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>-->
-<!--		</dependency>-->
+		<dependency>
+			<groupId>org.springframework.cloud</groupId>
+			<artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
+		</dependency>
 		<!--FIN DEPENDENCIA AGREGADA.-->
 	</dependencies>
 	<dependencyManagement>
