@@ -8,12 +8,10 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 public class UsuarioController {
@@ -38,6 +36,16 @@ public class UsuarioController {
 
   }
 
+  @GetMapping("/usuarios/{idUsuario}")
+  public ResponseEntity<UsuarioDTO> consultarUsuarioPorId(@PathVariable Long idUsuario){
+    try{
+      UsuarioDTO usuarioDTO = usuarioService.consultarUsuarioPorId(idUsuario);
+      return ResponseEntity.ok(usuarioDTO);
+    }catch (IllegalStateException e){
+      return ResponseEntity.notFound().build();
+    }
+  }
+
   @Operation(
       summary = "Crea un usuario",
       description = "Crea el usuario con el cuerpo JSON enviado"
@@ -47,7 +55,49 @@ public class UsuarioController {
   })
   @PostMapping("/usuarios")
   public ResponseEntity<Void> crearUsuario(@RequestBody UsuarioDTO usuarioDTO){
-    usuarioService.crearUsuario(usuarioDTO);
-    return ResponseEntity.ok().build();
+    try{
+      usuarioService.crearUsuario(usuarioDTO);
+      return ResponseEntity.ok().build();
+    }catch (IllegalStateException e){
+      return ResponseEntity.badRequest().build();
+    }
+  }
+
+  @DeleteMapping("/usuarios/{idUsuario}")
+  public ResponseEntity<String> eliminarUsuario(@PathVariable Long idUsuario){
+    try {
+      usuarioService.eliminarUsuario(idUsuario);
+      return ResponseEntity.ok("Usuario eliminado correctamente");
+    }catch (IllegalStateException e){
+      return ResponseEntity.status(HttpStatus.NOT_FOUND)
+          .body(e.getMessage());
+    }
+  }
+
+  @PatchMapping("/usuarios/{idUsuario}")
+  public ResponseEntity<UsuarioDTO> actualizarUsuarioParcial(
+      @PathVariable Long idUsuario,
+      @RequestBody UsuarioDTO usuarioDTO) {
+    try {
+      UsuarioDTO usuarioActualizado =
+          usuarioService.actualizarUsuarioParcial(idUsuario, usuarioDTO);
+      return ResponseEntity.ok(usuarioActualizado);
+    }catch (IllegalStateException e){
+      return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+    }
+  }
+
+  @PutMapping("/usuarios/{idUsuario}")
+  public ResponseEntity<UsuarioDTO> actualizarUsuario(
+      @PathVariable Long idUsuario,
+      @RequestBody UsuarioDTO usuarioDTO) {
+    try {
+      UsuarioDTO usuarioActualizado =
+          usuarioService.actualizarUsuario(idUsuario, usuarioDTO);
+      return ResponseEntity.ok(usuarioActualizado);
+    }catch (IllegalStateException e){
+      return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+    }
+
   }
 }

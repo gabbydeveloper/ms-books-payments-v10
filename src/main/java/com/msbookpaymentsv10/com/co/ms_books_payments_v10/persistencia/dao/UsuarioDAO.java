@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class UsuarioDAO {
 
-  //Este método es para guardar los datos
+  //Este método es para guardar los datos. Se hace la conversión DTO → ENTITY
   public Usuario usuario(UsuarioDTO usuarioDTO){
     Usuario usuario = new Usuario();
     usuario.setIdUsuario(usuarioDTO.getIdUsuario());
@@ -24,7 +24,7 @@ public class UsuarioDAO {
     return usuario;
   }
 
-  //Este método es para presentar los datos
+  //Este método es para presentar los datos. Se hace la conversión ENTITY → DTO
   public UsuarioDTO usuarioDTO(Usuario usuario){
     UsuarioDTO usuarioDTO = new UsuarioDTO();
     usuarioDTO.setIdUsuario(usuario.getIdUsuario());
