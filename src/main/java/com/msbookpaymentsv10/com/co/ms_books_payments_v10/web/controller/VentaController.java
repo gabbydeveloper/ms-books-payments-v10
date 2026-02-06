@@ -16,8 +16,8 @@ public class VentaController {
     @PostMapping ("/ventas")
     public ResponseEntity<VentaDTO> crearVenta(@RequestBody VentaDTO ventaDTO){
         try{
-            ventaService.CrearVenta(ventaDTO);
-            return ResponseEntity.ok(ventaDTO);
+            VentaDTO nuevaVenta = ventaService.crearVenta(ventaDTO);
+            return ResponseEntity.ok(nuevaVenta);
         }catch (IllegalStateException e){
             return ResponseEntity.badRequest().build();
         }
@@ -32,5 +32,16 @@ public class VentaController {
         }
         return new ResponseEntity<>(ventas, HttpStatus.OK);
     }
+
+    @PatchMapping("/ventas/{idVenta}")
+    public ResponseEntity<VentaDTO> actualizarVenta(@PathVariable Long idVenta, @RequestBody VentaDTO ventaDTO){
+        try{
+            VentaDTO ventaActualizada = ventaService.actualizarVenta(idVenta, ventaDTO);
+            return ResponseEntity.ok(ventaActualizada);
+        }catch (IllegalStateException e){
+            return ResponseEntity.badRequest().build();
+        }
+    }
+
 
 }

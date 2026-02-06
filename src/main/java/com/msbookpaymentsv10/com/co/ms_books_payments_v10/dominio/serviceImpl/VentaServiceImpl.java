@@ -10,24 +10,56 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class VentaServiceImpl implements VentaService {
-    @Autowired
-    private VentaRepository ventaRepository;
+  @Autowired
+  private VentaRepository ventaRepository;
 
-    @Autowired
-    private VentaDAO ventaDAO;
+  @Autowired
+  private VentaDAO ventaDAO;
 
-    @Override
-    public List<VentaDTO> listarVentasPorIdUsuario(Long idUsuario) {
-        List<Venta> ventas = ventaRepository.findByIdUsuario(idUsuario);
-        return ventas.stream().map(ventaDAO::ventaDTO).toList();
+  @Override
+  public List<VentaDTO> listarVentasPorIdUsuario(Long idUsuario) {
+    List<Venta> ventas = ventaRepository.findByIdUsuario(idUsuario);
+    return ventas.stream().map(ventaDAO::ventaDTO).toList();
+  }
+
+  @Override
+  public VentaDTO crearVenta(VentaDTO ventaDTO) {
+    Venta nuevaVenta = ventaRepository.save(ventaDAO.venta(ventaDTO));
+    return ventaDAO.ventaDTO(nuevaVenta);
+  }
+
+  @Override
+  public VentaDTO actualizarVenta(Long idVenta, VentaDTO ventaDTO) {
+    Optional<Venta> ventaId = ventaRepository.findById(idVenta);
+
+    if(ventaId.isEmpty()){
+      throw new IllegalStateException("Venta no existe");
     }
 
-    @Override
-    public VentaDTO CrearVenta(VentaDTO ventaDTO) {
-      Venta nuevaVenta = ventaRepository.save(ventaDAO.venta(ventaDTO));
-      return ventaDAO.ventaDTO(nuevaVenta);
+    Venta venta = ventaId.get();
+
+    if(ventaDTO.getEstadoVenta() != null){
+      venta.setEstadoVenta(ventaDTO.getEstadoVenta());
     }
+
+    if(ventaDTO.getCostoEnvio() != venta.getCostoEnvio()){
+      venta.setCostoEnvio(ventaDTO.getCostoEnvio());
+    }
+
+    if(ventaDTO.getPorcentajeDescuento() != venta.getPorcentajeDescuento()){
+      venta.setPorcentajeDescuento(ventaDTO.getPorcentajeDescuento());
+    }
+
+    if(ventaDTO.getNumeroOrden() != null){
+      venta.setNumeroOrden(ventaDTO.getNumeroOrden());
+    }
+
+    Venta ventaActualizada = ventaRepository.save(venta);
+
+    return ventaDAO.ventaDTO(ventaActualizada);
+  }
 }

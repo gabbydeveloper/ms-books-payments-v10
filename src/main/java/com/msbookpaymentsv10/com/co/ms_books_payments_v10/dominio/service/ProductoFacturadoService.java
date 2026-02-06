@@ -6,7 +6,7 @@ import com.msbookpaymentsv10.com.co.ms_books_payments_v10.persistencia.entity.Pr
 import java.util.List;
 
 public interface ProductoFacturadoService {
-  void crearProductoFacturado(ProductoFacturadoDTO productoFacturadoDTO);
+  ProductoFacturadoDTO crearProductoFacturado(ProductoFacturadoDTO productoFacturadoDTO);
   void eliminarProductoFacturado(Long idProductoFacturado);
   Integer cuantosProductosFacturadosPorIdLibro(Long idLibro);
   List<ProductoFacturadoDTO> listaProductosFacturadosXIdVenta(Long idVenta);

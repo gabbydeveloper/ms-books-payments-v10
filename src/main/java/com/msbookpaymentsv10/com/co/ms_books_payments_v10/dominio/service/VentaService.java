@@ -7,5 +7,6 @@ import java.util.List;
 
 public interface VentaService {
   List<VentaDTO> listarVentasPorIdUsuario(Long idUsuario);
-  VentaDTO CrearVenta(VentaDTO ventaDTO);
+  VentaDTO crearVenta(VentaDTO ventaDTO);
+  VentaDTO actualizarVenta(Long idVenta, VentaDTO ventaDTO);
 }

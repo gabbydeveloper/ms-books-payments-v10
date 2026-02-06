@@ -7,6 +7,8 @@ import com.msbookpaymentsv10.com.co.ms_books_payments_v10.persistencia.repositor
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.util.Optional;
+
 @Component
 public class ProductoFacturadoDAO {
 
@@ -21,10 +23,8 @@ public class ProductoFacturadoDAO {
     productoFacturado.setIdLibro(productoFacturadoDTO.getIdLibro());
 
     Venta venta = ventaRepository.findById(productoFacturadoDTO.getIdVenta())
-        .orElseThrow(() -> new RuntimeException("Venta no encontrada"));
-
+            .orElseThrow(() -> new IllegalStateException("El código de la venta no existe. Verifique!"));
     productoFacturado.setVenta(venta);
-
     productoFacturado.setCantidadItem(productoFacturadoDTO.getCantidadItem());
     productoFacturado.setPrecioUnitarioLibro(productoFacturadoDTO.getPrecioUnitarioLibro());
     productoFacturado.setEstadoProductoFacturado("ACTIVO");

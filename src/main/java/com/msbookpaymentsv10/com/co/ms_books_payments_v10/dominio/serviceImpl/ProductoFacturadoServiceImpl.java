@@ -28,7 +28,7 @@ public class ProductoFacturadoServiceImpl implements ProductoFacturadoService {
   private CatalogueClientService catalogueClientService;
 
   @Override
-  public void crearProductoFacturado(ProductoFacturadoDTO productoFacturadoDTO) {
+  public ProductoFacturadoDTO crearProductoFacturado(ProductoFacturadoDTO productoFacturadoDTO) {
     Long idLibro = productoFacturadoDTO.getIdLibro();
     Integer cantidad = productoFacturadoDTO.getCantidadItem();
 
@@ -36,20 +36,19 @@ public class ProductoFacturadoServiceImpl implements ProductoFacturadoService {
     Integer stock = catalogueClientService.getStock(idLibro);
 
     if (stock == null || stock < cantidad) {
-      throw new ResponseStatusException(
-          HttpStatus.BAD_REQUEST,
-          "Stock insuficiente. Disponible: " + stock
-      );
+      throw new IllegalStateException("Stock insuficiente o el producto no existe. Verifique!");
     }
 
     //Registra el producto facturado
-    productoFacturadoRepository.save(productoFacturadoDAO.productoFacturado(productoFacturadoDTO));
+    ProductoFacturado nuevoProducto = productoFacturadoRepository.save(productoFacturadoDAO.productoFacturado(productoFacturadoDTO));
 
     //Registra la salida del inventario
     KardexInventarioDTO salidaDTO = new KardexInventarioDTO();
     salidaDTO.setIdLibro(idLibro);
     salidaDTO.setCantidadInventario(cantidad);
     catalogueClientService.registrarSalidaInventario(salidaDTO);
+
+    return productoFacturadoDAO.productoFacturadoDTO(nuevoProducto);
 
   }
 

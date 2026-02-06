@@ -17,25 +17,28 @@ public class ProductoFacturadoController {
   ProductoFacturadoService productoFacturadoService;
 
   @GetMapping("/productos/facturados/{idLibro}")
-  public Integer cuantosLibrosFacturados(@PathVariable Long idLibro){
+  public Integer cuantosLibrosFacturados(@PathVariable Long idLibro) {
     return productoFacturadoService.cuantosProductosFacturadosPorIdLibro(idLibro);
   }
 
-  @GetMapping("productos/{idVenta}")
-  public ResponseEntity<List<ProductoFacturadoDTO>> productosPorVenta(@PathVariable Long idVenta){
+  @GetMapping("/productos/{idVenta}")
+  public ResponseEntity<List<ProductoFacturadoDTO>> productosPorVenta(@PathVariable Long idVenta) {
     List<ProductoFacturadoDTO> productos = productoFacturadoService.listaProductosFacturadosXIdVenta(idVenta);
 
-    if(productos.isEmpty()){ return new ResponseEntity<>(null, HttpStatus.NOT_FOUND); }
-    else{ return new ResponseEntity<>(productos, HttpStatus.OK); }
+    if (productos.isEmpty()) {
+      return ResponseEntity.noContent().build();
+    } else {
+      return new ResponseEntity<>(productos, HttpStatus.OK);
+    }
   }
 
   @PostMapping("/productos")
   public ResponseEntity<ProductoFacturadoDTO> crearProducto(@RequestBody ProductoFacturadoDTO productoFacturadoDTO) {
-    productoFacturadoService.crearProductoFacturado(productoFacturadoDTO);
-    return ResponseEntity.ok(productoFacturadoDTO);
+    ProductoFacturadoDTO nuevoProducto = productoFacturadoService.crearProductoFacturado(productoFacturadoDTO);
+    return ResponseEntity.ok(nuevoProducto);
   }
 
-  @DeleteMapping("productos/{idProducto}")
+  @DeleteMapping("/productos/{idProductoFacturado}")
   public ResponseEntity<Void> eliminarProducto(@PathVariable Long idProductoFacturado) {
     try {
       productoFacturadoService.eliminarProductoFacturado(idProductoFacturado);
