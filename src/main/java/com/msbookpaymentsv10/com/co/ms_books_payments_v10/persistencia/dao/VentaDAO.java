@@ -23,9 +23,13 @@ public class VentaDAO {
 
     public VentaDTO ventaDTO(Venta venta){
         VentaDTO ventaDTO = new VentaDTO();
-
+        ventaDTO.setIdVenta(venta.getIdVenta());
         ventaDTO.setIdUsuario(venta.getIdUsuario());
-
+        ventaDTO.setNumeroOrden(venta.getNumeroOrden());
+        ventaDTO.setFechaVenta(venta.getFechaVenta());
+        ventaDTO.setPorcentajeDescuento(venta.getPorcentajeDescuento());
+        ventaDTO.setCostoEnvio(venta.getCostoEnvio());
+        ventaDTO.setEstadoVenta(venta.getEstadoVenta());
 
         return ventaDTO;
     }

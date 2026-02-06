@@ -1,9 +1,11 @@
 package com.msbookpaymentsv10.com.co.ms_books_payments_v10.dominio.serviceImpl;
 
 import com.msbookpaymentsv10.com.co.ms_books_payments_v10.dominio.dto.RespuestaDTO;
+import com.msbookpaymentsv10.com.co.ms_books_payments_v10.dominio.dto.UsuarioDTO;
 import com.msbookpaymentsv10.com.co.ms_books_payments_v10.dominio.dto.VentaDTO;
 import com.msbookpaymentsv10.com.co.ms_books_payments_v10.dominio.service.VentaService;
 import com.msbookpaymentsv10.com.co.ms_books_payments_v10.persistencia.dao.VentaDAO;
+import com.msbookpaymentsv10.com.co.ms_books_payments_v10.persistencia.entity.Usuario;
 import com.msbookpaymentsv10.com.co.ms_books_payments_v10.persistencia.entity.Venta;
 import com.msbookpaymentsv10.com.co.ms_books_payments_v10.persistencia.repository.VentaRepository;
 
@@ -11,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Service
 public class VentaServiceImpl implements VentaService {
@@ -18,14 +21,13 @@ public class VentaServiceImpl implements VentaService {
     private VentaRepository ventaRepository;
 
     @Autowired
-    private VentaDAO ventaDAO; // Tu convertidor
+    private VentaDAO ventaDAO;
 
     @Override
-
-    public RespuestaDTO registrarVenta(VentaDTO ventaDTO) {
-
-
-
-        return null;
+    public List<VentaDTO> listarVentasPorIdUsuario(Long idUsuario) {
+        List<Venta> ventas = ventaRepository.findByIdUsuario(idUsuario);
+        return ventas.stream().map(ventaDAO::ventaDTO).toList();
     }
+    @Override
+    public void CrearVenta(VentaDTO ventaDTO) {ventaRepository.save(ventaDAO.venta(ventaDTO));}
 }
