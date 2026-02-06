@@ -1,6 +1,6 @@
 package com.msbookpaymentsv10.com.co.ms_books_payments_v10.dominio.service;
 
-import com.msbookpaymentsv10.com.co.ms_books_payments_v10.dominio.dto.SalidaInventarioDTO;
+import com.msbookpaymentsv10.com.co.ms_books_payments_v10.dominio.dto.KardexInventarioDTO;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 
@@ -24,10 +24,18 @@ public class CatalogueClientService {
         .block();
   }
 
-  public void registrarSalidaInventario(SalidaInventarioDTO dto) {
-
+  public void registrarSalidaInventario(KardexInventarioDTO dto) {
     webClient.post()
         .uri("/inventarios/salida")
+        .bodyValue(dto)
+        .retrieve()
+        .toBodilessEntity()
+        .block();
+  }
+
+  public void registrarEntradaInventario(KardexInventarioDTO dto) {
+    webClient.post()
+        .uri("/inventarios/entrada")
         .bodyValue(dto)
         .retrieve()
         .toBodilessEntity()
