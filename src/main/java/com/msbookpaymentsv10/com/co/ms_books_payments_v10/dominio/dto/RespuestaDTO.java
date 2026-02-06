@@ -7,7 +7,9 @@ import java.util.List;
 public class RespuestaDTO {
 
   private UsuarioDTO usuarioDTO;
+  private VentaDTO ventaDTO;
   private List<UsuarioDTO> usuariosDTO;
+  private List<VentaDTO> ventasDTO;
 
   public RespuestaDTO() {
   }
