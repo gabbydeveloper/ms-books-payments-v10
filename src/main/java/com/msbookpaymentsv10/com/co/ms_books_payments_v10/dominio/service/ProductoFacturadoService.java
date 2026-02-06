@@ -9,4 +9,5 @@ public interface ProductoFacturadoService {
   void crearProductoFacturado(ProductoFacturadoDTO productoFacturadoDTO);
   void eliminarProductoFacturado(Long idProductoFacturado);
   Integer cuantosProductosFacturadosPorIdLibro(Long idLibro);
+  List<ProductoFacturadoDTO> listaProductosFacturadosXIdVenta(Long idVenta);
 }

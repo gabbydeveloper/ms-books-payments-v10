@@ -80,5 +80,10 @@ public class ProductoFacturadoServiceImpl implements ProductoFacturadoService {
     return productoFacturadoRepository.cuantosLibrosFacturadosXIdLibro(idLibro);
   }
 
+  @Override
+  public List<ProductoFacturadoDTO> listaProductosFacturadosXIdVenta(Long idVenta) {
+    List<ProductoFacturado> productos = productoFacturadoRepository.productosPorIdVenta(idVenta);
+    return productos.stream().map(productoFacturadoDAO::productoFacturadoDTO).toList();
+  }
 
 }

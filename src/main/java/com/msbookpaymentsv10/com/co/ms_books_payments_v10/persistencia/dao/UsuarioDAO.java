@@ -30,7 +30,7 @@ public class UsuarioDAO {
     usuarioDTO.setIdUsuario(usuario.getIdUsuario());
     usuarioDTO.setIdRolUsuario(usuario.getIdRolUsuario());
     usuarioDTO.setCorreoUsuario(usuario.getCorreoUsuario());
-    usuarioDTO.setClaveUsuario(usuario.getClaveUsuario());
+    usuarioDTO.setClaveUsuario("************");
     usuarioDTO.setEstadoUsuario(usuario.getEstadoUsuario());
 
     return  usuarioDTO;

@@ -12,8 +12,9 @@ public class ProductoFacturado {
   @Column(name="ID_PRODUCTO_FACTURADO")
   private Long idProductoFacturado;
 
-  @Column(name="ID_VENTA")
-  private Long idVenta;
+  @ManyToOne(fetch = FetchType.LAZY)
+  @JoinColumn(name = "ID_VENTA", nullable = false)
+  private Venta venta;
 
   @Column(name="ID_LIBRO")
   private Long idLibro;

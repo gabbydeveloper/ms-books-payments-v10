@@ -7,5 +7,5 @@ import java.util.List;
 
 public interface VentaService {
   List<VentaDTO> listarVentasPorIdUsuario(Long idUsuario);
-  void CrearVenta(VentaDTO ventaDTO);
+  VentaDTO CrearVenta(VentaDTO ventaDTO);
 }

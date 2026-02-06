@@ -1,6 +1,5 @@
 package com.msbookpaymentsv10.com.co.ms_books_payments_v10.dominio.serviceImpl;
 
-import com.msbookpaymentsv10.com.co.ms_books_payments_v10.dominio.dto.RespuestaDTO;
 import com.msbookpaymentsv10.com.co.ms_books_payments_v10.dominio.dto.UsuarioDTO;
 import com.msbookpaymentsv10.com.co.ms_books_payments_v10.dominio.service.UsuarioService;
 import com.msbookpaymentsv10.com.co.ms_books_payments_v10.persistencia.dao.UsuarioDAO;
@@ -8,6 +7,7 @@ import com.msbookpaymentsv10.com.co.ms_books_payments_v10.persistencia.entity.Us
 import com.msbookpaymentsv10.com.co.ms_books_payments_v10.persistencia.repository.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
 import java.util.List;
 import java.util.Optional;
 
@@ -26,14 +26,17 @@ public class UsuarioServiceImpl implements UsuarioService {
   }
 
   @Override
-  public void crearUsuario(UsuarioDTO usuarioDTO) {
-    usuarioRepository.save(usuarioDAO.usuario(usuarioDTO));
+  public UsuarioDTO crearUsuario(UsuarioDTO usuarioDTO) {
+
+    Usuario nuevoUsuario = usuarioRepository.save(usuarioDAO.usuario(usuarioDTO));
+
+    return usuarioDAO.usuarioDTO(nuevoUsuario);
   }
 
   @Override
   public void eliminarUsuario(Long idUsuario) {
     Optional<Usuario> usuarioId = usuarioRepository.findById(idUsuario);
-    if(usuarioId.isEmpty()){
+    if (usuarioId.isEmpty()) {
       throw new IllegalStateException("Usuario no existe");
     }
     usuarioRepository.delete(usuarioId.get());
@@ -42,7 +45,7 @@ public class UsuarioServiceImpl implements UsuarioService {
   @Override
   public UsuarioDTO consultarUsuarioPorId(Long idUsuario) {
     Optional<Usuario> usuario = usuarioRepository.findById(idUsuario);
-    if(usuario.isEmpty()){
+    if (usuario.isEmpty()) {
       throw new IllegalStateException("Usuario no existe");
     }
     return usuarioDAO.usuarioDTO(usuario.get());
@@ -52,7 +55,7 @@ public class UsuarioServiceImpl implements UsuarioService {
   public UsuarioDTO actualizarUsuarioParcial(long idUsuario, UsuarioDTO usuarioDTO) {
     Optional<Usuario> usuarioId = usuarioRepository.findById(idUsuario);
 
-    if(usuarioId.isEmpty()){
+    if (usuarioId.isEmpty()) {
       throw new IllegalStateException("Usuario no existe");
     }
 
@@ -83,7 +86,7 @@ public class UsuarioServiceImpl implements UsuarioService {
   public UsuarioDTO actualizarUsuario(Long idUsuario, UsuarioDTO usuarioDTO) {
     Optional<Usuario> usuarioId = usuarioRepository.findById(idUsuario);
 
-    if(usuarioId.isEmpty()){
+    if (usuarioId.isEmpty()) {
       throw new IllegalStateException("Usuario no existe");
     }
 

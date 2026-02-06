@@ -1,10 +1,14 @@
 package com.msbookpaymentsv10.com.co.ms_books_payments_v10.web.controller;
 
 import com.msbookpaymentsv10.com.co.ms_books_payments_v10.dominio.dto.ProductoFacturadoDTO;
+import com.msbookpaymentsv10.com.co.ms_books_payments_v10.dominio.dto.UsuarioDTO;
 import com.msbookpaymentsv10.com.co.ms_books_payments_v10.dominio.service.ProductoFacturadoService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 public class ProductoFacturadoController {
@@ -15,6 +19,14 @@ public class ProductoFacturadoController {
   @GetMapping("/productos/facturados/{idLibro}")
   public Integer cuantosLibrosFacturados(@PathVariable Long idLibro){
     return productoFacturadoService.cuantosProductosFacturadosPorIdLibro(idLibro);
+  }
+
+  @GetMapping("productos/{idVenta}")
+  public ResponseEntity<List<ProductoFacturadoDTO>> productosPorVenta(@PathVariable Long idVenta){
+    List<ProductoFacturadoDTO> productos = productoFacturadoService.listaProductosFacturadosXIdVenta(idVenta);
+
+    if(productos.isEmpty()){ return new ResponseEntity<>(null, HttpStatus.NOT_FOUND); }
+    else{ return new ResponseEntity<>(productos, HttpStatus.OK); }
   }
 
   @PostMapping("/productos")

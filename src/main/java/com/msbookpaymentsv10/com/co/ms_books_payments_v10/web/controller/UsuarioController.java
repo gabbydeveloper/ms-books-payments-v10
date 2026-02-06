@@ -63,10 +63,10 @@ public class UsuarioController {
       @ApiResponse(responseCode = "400", description = "Parámetros inválidos")
   })
   @PostMapping("/usuarios")
-  public ResponseEntity<Void> crearUsuario(@RequestBody UsuarioDTO usuarioDTO){
+  public ResponseEntity<UsuarioDTO> crearUsuario(@RequestBody UsuarioDTO usuarioDTO){
     try{
-      usuarioService.crearUsuario(usuarioDTO);
-      return ResponseEntity.ok().build();
+      UsuarioDTO nuevoUsuario = usuarioService.crearUsuario(usuarioDTO);
+      return ResponseEntity.ok(nuevoUsuario);
     }catch (IllegalStateException e){
       return ResponseEntity.badRequest().build();
     }

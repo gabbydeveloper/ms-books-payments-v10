@@ -8,7 +8,7 @@ public interface UsuarioService {
   //Creación de la lista para el GET
   List<UsuarioDTO> listarUsuarios();
   //Declara el método para crear usuario
-  void crearUsuario(UsuarioDTO usuarioDTO);
+  UsuarioDTO crearUsuario(UsuarioDTO usuarioDTO);
   //Declara el método para eliminar usuario
   void eliminarUsuario(Long idUsuario);
   //Método que consulta un usuario por ID
