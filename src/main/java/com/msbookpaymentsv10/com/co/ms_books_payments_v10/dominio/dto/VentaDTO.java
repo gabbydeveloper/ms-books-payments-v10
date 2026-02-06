@@ -15,9 +15,9 @@ public class VentaDTO {
     @Schema(description = "Fecha y hora en que realiza la venta", example ="2026-02-05T15:17:00")
     private LocalDateTime fechaVenta;
     @Schema(description = "Porcentaje de descuento de la venta", example = "0,1")
-    private Double porcentajeDescuento;
+    private double porcentajeDescuento;
     @Schema(description = "Costo de envio de la venta", example = "5,00")
-    private Double costoEnvio;
+    private double costoEnvio;
     @Schema(description = "Estado de la venta (INGRESADA por default)", example = "INGRESADA/PAGADA/ANULADA")
     private String estadoVenta;
 

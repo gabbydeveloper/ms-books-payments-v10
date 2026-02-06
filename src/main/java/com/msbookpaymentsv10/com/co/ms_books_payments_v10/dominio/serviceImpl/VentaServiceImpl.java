@@ -28,6 +28,7 @@ public class VentaServiceImpl implements VentaService {
         List<Venta> ventas = ventaRepository.findByIdUsuario(idUsuario);
         return ventas.stream().map(ventaDAO::ventaDTO).toList();
     }
+
     @Override
     public void CrearVenta(VentaDTO ventaDTO) {ventaRepository.save(ventaDAO.venta(ventaDTO));}
 }

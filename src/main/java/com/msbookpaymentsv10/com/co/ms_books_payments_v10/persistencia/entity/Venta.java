@@ -24,10 +24,10 @@ public class Venta {
     private LocalDateTime fechaVenta;
 
     @Column(name="PORCENTAJE_DESCUENTO", nullable = false)
-    private Double porcentajeDescuento;
+    private double porcentajeDescuento;
 
     @Column(name="COSTO_ENVIO", nullable = false)
-    private Double costoEnvio;
+    private double costoEnvio;
 
     @Column(name="ESTADO_VENTA", nullable = false)
     private String estadoVenta;

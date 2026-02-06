@@ -6,30 +6,31 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 public class VentaController {
     @Autowired
     private VentaService ventaService;
 
     @PostMapping ("/ventas")
-    public ResponseEntity<Void> crearVenta(@RequestBody VentaDTO ventaDTO){
+    public ResponseEntity<VentaDTO> crearVenta(@RequestBody VentaDTO ventaDTO){
         try{
             ventaService.CrearVenta(ventaDTO);
-            return ResponseEntity.ok().build();
+            return ResponseEntity.ok(ventaDTO);
         }catch (IllegalStateException e){
             return ResponseEntity.badRequest().build();
         }
     }
 
     //LEER CONSULTA DE REGISTRO POR ID:
-    @GetMapping("/ventasbyId/{idUsuario}")//DECLARACIÓN DEL MAPEO DEL CRUD CONSULTAR REGISTRO.
-    public ResponseEntity<Void> listarVentasByIdUsuario(@PathVariable Long idUsuario){
-        try{
-            ventaService.listarVentasPorIdUsuario(idUsuario);
-            return ResponseEntity.ok().build();
-        }catch (IllegalStateException e){
-            return ResponseEntity.badRequest().build();
+    @GetMapping("/ventas/{idUsuario}")//DECLARACIÓN DEL MAPEO DEL CRUD CONSULTAR REGISTRO.
+    public ResponseEntity<List<VentaDTO>> listarVentasByIdUsuario(@PathVariable Long idUsuario){
+        List<VentaDTO> ventas =  ventaService.listarVentasPorIdUsuario(idUsuario);
+        if(ventas.isEmpty()){
+            return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
         }
+        return new ResponseEntity<>(ventas, HttpStatus.OK);
     }
 
 }

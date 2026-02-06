@@ -4,6 +4,8 @@ import com.msbookpaymentsv10.com.co.ms_books_payments_v10.dominio.dto.VentaDTO;
 import com.msbookpaymentsv10.com.co.ms_books_payments_v10.persistencia.entity.Venta;
 import org.springframework.stereotype.Component;
 
+import java.time.LocalDateTime;
+
 @Component
 public class VentaDAO {
 
@@ -12,11 +14,10 @@ public class VentaDAO {
        venta.setIdVenta(ventaDTO.getIdVenta());
         venta.setIdUsuario(ventaDTO.getIdUsuario());
         venta.setNumeroOrden(ventaDTO.getNumeroOrden());
-        venta.setFechaVenta(ventaDTO.getFechaVenta());
+        venta.setFechaVenta(LocalDateTime.now());
         venta.setPorcentajeDescuento(ventaDTO.getPorcentajeDescuento());
         venta.setCostoEnvio(ventaDTO.getCostoEnvio());
         venta.setEstadoVenta(ventaDTO.getEstadoVenta());
-
         return venta;
     }
 
