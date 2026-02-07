@@ -27,13 +27,9 @@ public class UsuarioController {
       @ApiResponse(responseCode = "404", description = "Si no hay usuarios")
   })
   @GetMapping("/usuarios")
-  public ResponseEntity<List<UsuarioDTO>> listarUsuarios(){
-
+  public ResponseEntity<List<UsuarioDTO>> listarUsuarios() {
     List<UsuarioDTO> usuarios = usuarioService.listarUsuarios();
-
-    if(usuarios.isEmpty()){ return new ResponseEntity<>(null, HttpStatus.NOT_FOUND); }
-    else{ return new ResponseEntity<>(usuarios, HttpStatus.OK); }
-
+    return new ResponseEntity<>(usuarios, HttpStatus.OK);
   }
 
   @Operation(
@@ -45,13 +41,9 @@ public class UsuarioController {
       @ApiResponse(responseCode = "404", description = "Usuario no existe")
   })
   @GetMapping("/usuarios/{idUsuario}")
-  public ResponseEntity<UsuarioDTO> consultarUsuarioPorId(@PathVariable Long idUsuario){
-    try{
-      UsuarioDTO usuarioDTO = usuarioService.consultarUsuarioPorId(idUsuario);
-      return ResponseEntity.ok(usuarioDTO);
-    }catch (IllegalStateException e){
-      return ResponseEntity.notFound().build();
-    }
+  public ResponseEntity<UsuarioDTO> consultarUsuarioPorId(@PathVariable Long idUsuario) {
+    UsuarioDTO usuarioDTO = usuarioService.consultarUsuarioPorId(idUsuario);
+    return ResponseEntity.ok(usuarioDTO);
   }
 
   @Operation(
@@ -63,13 +55,9 @@ public class UsuarioController {
       @ApiResponse(responseCode = "400", description = "Parámetros inválidos")
   })
   @PostMapping("/usuarios")
-  public ResponseEntity<UsuarioDTO> crearUsuario(@RequestBody UsuarioDTO usuarioDTO){
-    try{
-      UsuarioDTO nuevoUsuario = usuarioService.crearUsuario(usuarioDTO);
-      return ResponseEntity.ok(nuevoUsuario);
-    }catch (IllegalStateException e){
-      return ResponseEntity.badRequest().build();
-    }
+  public ResponseEntity<UsuarioDTO> crearUsuario(@RequestBody UsuarioDTO usuarioDTO) {
+    UsuarioDTO nuevoUsuario = usuarioService.crearUsuario(usuarioDTO);
+    return ResponseEntity.ok(nuevoUsuario);
   }
 
   @Operation(
@@ -81,13 +69,9 @@ public class UsuarioController {
       @ApiResponse(responseCode = "404", description = "Usuario no existe")
   })
   @DeleteMapping("/usuarios/{idUsuario}")
-  public ResponseEntity<Void> eliminarUsuario(@PathVariable Long idUsuario){
-    try {
-      usuarioService.eliminarUsuario(idUsuario);
-      return ResponseEntity.ok().build();
-    }catch (IllegalStateException e){
-      return ResponseEntity.notFound().build();
-    }
+  public ResponseEntity<Void> eliminarUsuario(@PathVariable Long idUsuario) {
+    usuarioService.eliminarUsuario(idUsuario);
+    return ResponseEntity.ok().build();
   }
 
   @Operation(
@@ -102,13 +86,9 @@ public class UsuarioController {
   public ResponseEntity<UsuarioDTO> actualizarUsuarioParcial(
       @PathVariable Long idUsuario,
       @RequestBody UsuarioDTO usuarioDTO) {
-    try {
-      UsuarioDTO usuarioActualizado =
-          usuarioService.actualizarUsuarioParcial(idUsuario, usuarioDTO);
-      return ResponseEntity.ok(usuarioActualizado);
-    }catch (IllegalStateException e){
-      return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
-    }
+    UsuarioDTO usuarioActualizado =
+        usuarioService.actualizarUsuarioParcial(idUsuario, usuarioDTO);
+    return ResponseEntity.ok(usuarioActualizado);
   }
 
   @Operation(
@@ -124,13 +104,8 @@ public class UsuarioController {
   public ResponseEntity<UsuarioDTO> actualizarUsuario(
       @PathVariable Long idUsuario,
       @RequestBody UsuarioDTO usuarioDTO) {
-    try {
-      UsuarioDTO usuarioActualizado =
-          usuarioService.actualizarUsuario(idUsuario, usuarioDTO);
-      return ResponseEntity.ok(usuarioActualizado);
-    }catch (IllegalStateException e){
-      return ResponseEntity.notFound().build();
-    }
-
+    UsuarioDTO usuarioActualizado =
+        usuarioService.actualizarUsuario(idUsuario, usuarioDTO);
+    return ResponseEntity.ok(usuarioActualizado);
   }
 }

@@ -24,12 +24,7 @@ public class ProductoFacturadoController {
   @GetMapping("/productos/{idVenta}")
   public ResponseEntity<List<ProductoFacturadoDTO>> productosPorVenta(@PathVariable Long idVenta) {
     List<ProductoFacturadoDTO> productos = productoFacturadoService.listaProductosFacturadosXIdVenta(idVenta);
-
-    if (productos.isEmpty()) {
-      return ResponseEntity.noContent().build();
-    } else {
-      return new ResponseEntity<>(productos, HttpStatus.OK);
-    }
+    return new ResponseEntity<>(productos, HttpStatus.OK);
   }
 
   @PostMapping("/productos")
@@ -40,12 +35,8 @@ public class ProductoFacturadoController {
 
   @DeleteMapping("/productos/{idProductoFacturado}")
   public ResponseEntity<Void> eliminarProducto(@PathVariable Long idProductoFacturado) {
-    try {
-      productoFacturadoService.eliminarProductoFacturado(idProductoFacturado);
-      return ResponseEntity.ok().build();
-    } catch (IllegalStateException e) {
-      return ResponseEntity.notFound().build();
-    }
+    productoFacturadoService.eliminarProductoFacturado(idProductoFacturado);
+    return ResponseEntity.ok().build();
   }
 
 }

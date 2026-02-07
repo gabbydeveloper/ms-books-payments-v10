@@ -1,4 +1,5 @@
 package com.msbookpaymentsv10.com.co.ms_books_payments_v10.web.controller;
+
 import com.msbookpaymentsv10.com.co.ms_books_payments_v10.dominio.dto.VentaDTO;
 import com.msbookpaymentsv10.com.co.ms_books_payments_v10.dominio.service.VentaService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,39 +10,28 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
+@RequestMapping("/ventas")
 public class VentaController {
-    @Autowired
-    private VentaService ventaService;
+  @Autowired
+  private VentaService ventaService;
 
-    @PostMapping ("/ventas")
-    public ResponseEntity<VentaDTO> crearVenta(@RequestBody VentaDTO ventaDTO){
-        try{
-            VentaDTO nuevaVenta = ventaService.crearVenta(ventaDTO);
-            return ResponseEntity.ok(nuevaVenta);
-        }catch (IllegalStateException e){
-            return ResponseEntity.badRequest().build();
-        }
-    }
+  @PostMapping
+  public ResponseEntity<VentaDTO> crearVenta(@RequestBody VentaDTO ventaDTO) {
+    VentaDTO nuevaVenta = ventaService.crearVenta(ventaDTO);
+    return ResponseEntity.ok(nuevaVenta);
+  }
 
-    //LEER CONSULTA DE REGISTRO POR ID:
-    @GetMapping("/ventas/{idUsuario}")//DECLARACIÓN DEL MAPEO DEL CRUD CONSULTAR REGISTRO.
-    public ResponseEntity<List<VentaDTO>> listarVentasByIdUsuario(@PathVariable Long idUsuario){
-        List<VentaDTO> ventas =  ventaService.listarVentasPorIdUsuario(idUsuario);
-        if(ventas.isEmpty()){
-            return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
-        }
-        return new ResponseEntity<>(ventas, HttpStatus.OK);
-    }
+  @GetMapping("/usuario/{idUsuario}")
+  public ResponseEntity<List<VentaDTO>> listarVentasByIdUsuario(@PathVariable Long idUsuario) {
+    List<VentaDTO> ventas = ventaService.listarVentasPorIdUsuario(idUsuario);
+    return new ResponseEntity<>(ventas, HttpStatus.OK);
+  }
 
-    @PatchMapping("/ventas/{idVenta}")
-    public ResponseEntity<VentaDTO> actualizarVenta(@PathVariable Long idVenta, @RequestBody VentaDTO ventaDTO){
-        try{
-            VentaDTO ventaActualizada = ventaService.actualizarVenta(idVenta, ventaDTO);
-            return ResponseEntity.ok(ventaActualizada);
-        }catch (IllegalStateException e){
-            return ResponseEntity.badRequest().build();
-        }
-    }
+  @PatchMapping("/{idVenta}")
+  public ResponseEntity<VentaDTO> actualizarVenta(@PathVariable Long idVenta, @RequestBody VentaDTO ventaDTO) {
+    VentaDTO ventaActualizada = ventaService.actualizarVenta(idVenta, ventaDTO);
+    return ResponseEntity.ok(ventaActualizada);
+  }
 
 
 }

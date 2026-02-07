@@ -1,5 +1,7 @@
 package com.msbookpaymentsv10.com.co.ms_books_payments_v10.dominio.serviceImpl;
 
+import com.msbookpaymentsv10.com.co.ms_books_payments_v10.dominio.exception.BusinessException;
+import com.msbookpaymentsv10.com.co.ms_books_payments_v10.dominio.Constantes.MensajeRespuesta;
 import com.msbookpaymentsv10.com.co.ms_books_payments_v10.dominio.dto.UsuarioDTO;
 import com.msbookpaymentsv10.com.co.ms_books_payments_v10.dominio.service.UsuarioService;
 import com.msbookpaymentsv10.com.co.ms_books_payments_v10.persistencia.dao.UsuarioDAO;
@@ -22,14 +24,17 @@ public class UsuarioServiceImpl implements UsuarioService {
   @Override
   public List<UsuarioDTO> listarUsuarios() {
     List<Usuario> usuarios = usuarioRepository.findAll();
+
+    if (usuarios.isEmpty()) {
+      throw new BusinessException(MensajeRespuesta.ERROR_NO_EXISTEN_REGISTROS);
+    }
+
     return usuarios.stream().map(usuarioDAO::usuarioDTO).toList();
   }
 
   @Override
   public UsuarioDTO crearUsuario(UsuarioDTO usuarioDTO) {
-
     Usuario nuevoUsuario = usuarioRepository.save(usuarioDAO.usuario(usuarioDTO));
-
     return usuarioDAO.usuarioDTO(nuevoUsuario);
   }
 
@@ -37,7 +42,7 @@ public class UsuarioServiceImpl implements UsuarioService {
   public void eliminarUsuario(Long idUsuario) {
     Optional<Usuario> usuarioId = usuarioRepository.findById(idUsuario);
     if (usuarioId.isEmpty()) {
-      throw new IllegalStateException("Usuario no existe");
+      throw new BusinessException(MensajeRespuesta.ERROR_REGISTRO_NO_ENCONTRADO);
     }
     usuarioRepository.delete(usuarioId.get());
   }
@@ -46,7 +51,7 @@ public class UsuarioServiceImpl implements UsuarioService {
   public UsuarioDTO consultarUsuarioPorId(Long idUsuario) {
     Optional<Usuario> usuario = usuarioRepository.findById(idUsuario);
     if (usuario.isEmpty()) {
-      throw new IllegalStateException("Usuario no existe");
+      throw new BusinessException(MensajeRespuesta.ERROR_REGISTRO_NO_ENCONTRADO);
     }
     return usuarioDAO.usuarioDTO(usuario.get());
   }
@@ -56,7 +61,7 @@ public class UsuarioServiceImpl implements UsuarioService {
     Optional<Usuario> usuarioId = usuarioRepository.findById(idUsuario);
 
     if (usuarioId.isEmpty()) {
-      throw new IllegalStateException("Usuario no existe");
+      throw new BusinessException(MensajeRespuesta.ERROR_REGISTRO_NO_ENCONTRADO);
     }
 
     Usuario usuario = usuarioId.get();
@@ -87,7 +92,7 @@ public class UsuarioServiceImpl implements UsuarioService {
     Optional<Usuario> usuarioId = usuarioRepository.findById(idUsuario);
 
     if (usuarioId.isEmpty()) {
-      throw new IllegalStateException("Usuario no existe");
+      throw new BusinessException(MensajeRespuesta.ERROR_REGISTRO_NO_ENCONTRADO);
     }
 
     Usuario usuario = usuarioId.get();

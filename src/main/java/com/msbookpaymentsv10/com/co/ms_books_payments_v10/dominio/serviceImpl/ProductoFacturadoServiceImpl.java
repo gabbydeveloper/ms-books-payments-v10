@@ -1,5 +1,7 @@
 package com.msbookpaymentsv10.com.co.ms_books_payments_v10.dominio.serviceImpl;
 
+import com.msbookpaymentsv10.com.co.ms_books_payments_v10.dominio.exception.BusinessException;
+import com.msbookpaymentsv10.com.co.ms_books_payments_v10.dominio.Constantes.MensajeRespuesta;
 import com.msbookpaymentsv10.com.co.ms_books_payments_v10.dominio.dto.ProductoFacturadoDTO;
 import com.msbookpaymentsv10.com.co.ms_books_payments_v10.dominio.dto.KardexInventarioDTO;
 import com.msbookpaymentsv10.com.co.ms_books_payments_v10.dominio.service.CatalogueClientService;
@@ -8,9 +10,7 @@ import com.msbookpaymentsv10.com.co.ms_books_payments_v10.persistencia.dao.Produ
 import com.msbookpaymentsv10.com.co.ms_books_payments_v10.persistencia.entity.ProductoFacturado;
 import com.msbookpaymentsv10.com.co.ms_books_payments_v10.persistencia.repository.ProductoFacturadoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
-import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 import java.util.Optional;
@@ -36,7 +36,7 @@ public class ProductoFacturadoServiceImpl implements ProductoFacturadoService {
     Integer stock = catalogueClientService.getStock(idLibro);
 
     if (stock == null || stock < cantidad) {
-      throw new IllegalStateException("Stock insuficiente o el producto no existe. Verifique!");
+      throw new BusinessException(MensajeRespuesta.ERROR_STOCK_INSUFICIENTE);
     }
 
     //Registra el producto facturado
@@ -59,7 +59,7 @@ public class ProductoFacturadoServiceImpl implements ProductoFacturadoService {
 
     if(productoFacturado.isEmpty())
     {
-      throw new IllegalStateException("El detalle no existe");
+      throw new BusinessException(MensajeRespuesta.ERROR_REGISTRO_NO_ENCONTRADO);
     }
 
     Long idLibro = productoFacturado.get().getIdLibro();
@@ -82,6 +82,11 @@ public class ProductoFacturadoServiceImpl implements ProductoFacturadoService {
   @Override
   public List<ProductoFacturadoDTO> listaProductosFacturadosXIdVenta(Long idVenta) {
     List<ProductoFacturado> productos = productoFacturadoRepository.productosPorIdVenta(idVenta);
+
+    if(productos.isEmpty()){
+      throw new BusinessException(MensajeRespuesta.ERROR_NO_EXISTEN_REGISTROS);
+    }
+
     return productos.stream().map(productoFacturadoDAO::productoFacturadoDTO).toList();
   }
 

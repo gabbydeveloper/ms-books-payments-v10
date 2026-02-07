@@ -1,5 +1,7 @@
 package com.msbookpaymentsv10.com.co.ms_books_payments_v10.dominio.serviceImpl;
 
+import com.msbookpaymentsv10.com.co.ms_books_payments_v10.dominio.exception.BusinessException;
+import com.msbookpaymentsv10.com.co.ms_books_payments_v10.dominio.Constantes.MensajeRespuesta;
 import com.msbookpaymentsv10.com.co.ms_books_payments_v10.dominio.dto.VentaDTO;
 import com.msbookpaymentsv10.com.co.ms_books_payments_v10.dominio.service.VentaService;
 import com.msbookpaymentsv10.com.co.ms_books_payments_v10.persistencia.dao.VentaDAO;
@@ -23,6 +25,11 @@ public class VentaServiceImpl implements VentaService {
   @Override
   public List<VentaDTO> listarVentasPorIdUsuario(Long idUsuario) {
     List<Venta> ventas = ventaRepository.findByIdUsuario(idUsuario);
+
+    if(ventas.isEmpty()){
+      throw new BusinessException(MensajeRespuesta.ERROR_NO_EXISTEN_REGISTROS);
+    }
+
     return ventas.stream().map(ventaDAO::ventaDTO).toList();
   }
 
@@ -37,7 +44,7 @@ public class VentaServiceImpl implements VentaService {
     Optional<Venta> ventaId = ventaRepository.findById(idVenta);
 
     if(ventaId.isEmpty()){
-      throw new IllegalStateException("Venta no existe");
+      throw new BusinessException(MensajeRespuesta.ERROR_REGISTRO_NO_ENCONTRADO);
     }
 
     Venta venta = ventaId.get();
